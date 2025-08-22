@@ -88,6 +88,14 @@ public class AddressBook {
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
+    /** Return a list sorted by name (case-insensitive). */
+    public static List<Contact> sortedByName(List<Contact> contacts) {
+        if (contacts == null) return Collections.emptyList();
+        return contacts.stream()
+                .sorted(Comparator.comparing(c -> c.getName().toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
     /** Group contacts by city and count them. */
     public static Map<String, Long> groupCountByCity(List<Contact> contacts) {
         if (contacts == null) return Collections.emptyMap();

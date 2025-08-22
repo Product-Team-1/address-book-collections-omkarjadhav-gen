@@ -67,7 +67,7 @@ public class AddressBook {
     public static List<Contact> filterByCity(List<Contact> contacts, String city) {
         if (contacts == null || city == null) return Collections.emptyList();
         return contacts.stream()
-                .filter(c -> c.getCity() != null && c.getCity().equalsIgnoreCase(city))
+                .filter(c -> c.getCity() != null && c.getCity().equals(city))
                 .collect(Collectors.toList());
     }
 
@@ -86,14 +86,6 @@ public class AddressBook {
                 .map(Contact::getCity)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
-    }
-
-    /** Return a list sorted by name (case-insensitive). */
-    public static List<Contact> sortedByName(List<Contact> contacts) {
-        if (contacts == null) return Collections.emptyList();
-        return contacts.stream()
-                .sorted(Comparator.comparing(c -> c.getName().toLowerCase()))
-                .collect(Collectors.toList());
     }
 
     /** Group contacts by city and count them. */

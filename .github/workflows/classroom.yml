@@ -1,0 +1,100 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: LoadValidContactsTest
+      id: loadvalidcontactstest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: LoadValidContactsTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.LoadValidContactsTest
+        timeout: 3
+        max-score: 1
+    - name: IgnoreInvalidRowsTest
+      id: ignoreinvalidrowstest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: IgnoreInvalidRowsTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.IgnoreInvalidRowsTest
+        timeout: 3
+        max-score: 1
+    - name: SearchByNameTest
+      id: searchbynametest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: SearchByNameTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.SearchByNameTest
+        timeout: 3
+        max-score: 1
+    - name: FilterByCityTest
+      id: filterbycitytest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: FilterByCityTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.FilterByCityTest
+        timeout: 3
+        max-score: 1
+    - name: PhonePrefixTest
+      id: phoneprefixtest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: PhonePrefixTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.PhonePrefixTest
+        timeout: 3
+        max-score: 1
+    - name: UniqueCitiesTest
+      id: uniquecitiestest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: UniqueCitiesTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.UniqueCitiesTest
+        timeout: 3
+        max-score: 1
+    - name: SortByNameTest
+      id: sortbynametest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: SortByNameTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.SortByNameTest
+        timeout: 3
+        max-score: 1
+    - name: GroupByCityTest
+      id: groupbycitytest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: GroupByCityTest
+        setup-command: ''
+        command: gradle -q test --tests com.example.addressbook.GroupByCityTest
+        timeout: 3
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        LOADVALIDCONTACTSTEST_RESULTS: "${{steps.loadvalidcontactstest.outputs.result}}"
+        IGNOREINVALIDROWSTEST_RESULTS: "${{steps.ignoreinvalidrowstest.outputs.result}}"
+        SEARCHBYNAMETEST_RESULTS: "${{steps.searchbynametest.outputs.result}}"
+        FILTERBYCITYTEST_RESULTS: "${{steps.filterbycitytest.outputs.result}}"
+        PHONEPREFIXTEST_RESULTS: "${{steps.phoneprefixtest.outputs.result}}"
+        UNIQUECITIESTEST_RESULTS: "${{steps.uniquecitiestest.outputs.result}}"
+        SORTBYNAMETEST_RESULTS: "${{steps.sortbynametest.outputs.result}}"
+        GROUPBYCITYTEST_RESULTS: "${{steps.groupbycitytest.outputs.result}}"
+      with:
+        runners: loadvalidcontactstest,ignoreinvalidrowstest,searchbynametest,filterbycitytest,phoneprefixtest,uniquecitiestest,sortbynametest,groupbycitytest
